@@ -67,4 +67,20 @@ export class DataLocalService {
 
   }
 
+  sendMail(): void {
+
+    const arr: string[] = [];
+
+    const headers = 'Tipo, Formato, Creado en, Texto\n';
+
+    arr.push(headers);
+
+    this.registros.forEach(
+      (registro: Registro) => arr.push(`${registro.type}, ${registro.format}, ${registro.created}, ${registro.text.replace(',', ' ')}\n`)
+    );
+
+    console.log(arr.join(''));
+
+  }
+
 }

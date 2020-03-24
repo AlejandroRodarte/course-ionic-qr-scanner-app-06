@@ -19,7 +19,7 @@ export class Tab2Page implements OnInit, OnDestroy {
   ) {}
 
   sendMail(): void {
-    console.log('sendMail');
+    this.dataLocalService.sendMail();
   }
 
   ngOnInit() {
