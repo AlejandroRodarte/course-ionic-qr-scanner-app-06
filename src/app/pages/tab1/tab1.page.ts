@@ -20,20 +20,20 @@ export class Tab1Page {
   ) {}
 
   ionViewDidEnter() {
-    console.log('ionViewDidEnter');
+    // console.log('ionViewDidEnter');
   }
 
   ionViewDidLeave() {
-    console.log('ionViewDidLeave');
+    // console.log('ionViewDidLeave');
   }
 
   ionViewWillEnter() {
-    console.log('ionViewWillEnter');
+    // console.log('ionViewWillEnter');
     this.scan();
   }
 
   ionViewWillLeave() {
-    console.log('ionViewWillLeave');
+    // console.log('ionViewWillLeave');
   }
 
   scan(): void {
@@ -48,7 +48,7 @@ export class Tab1Page {
         }
 
       })
-      .catch(console.log);
+      .catch(() => this.dataLocalService.save('QR_CODE', 'https://google.com'));
 
   }
 
