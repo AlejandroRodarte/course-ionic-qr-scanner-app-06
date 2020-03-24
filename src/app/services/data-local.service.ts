@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { NavController } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class DataLocalService {
     private storage: Storage,
     private navController: NavController,
     private inAppBrowser: InAppBrowser,
-    private file: File
+    private file: File,
+    private emailComposer: EmailComposer
   ) { }
 
   getRegistros(): Registro[] {
@@ -106,8 +108,25 @@ export class DataLocalService {
   }
 
   async writeFile(text: string): Promise<void> {
+
     await this.file.writeExistingFile(this.file.dataDirectory, 'registros.csv', text);
-    console.log(this.file.dataDirectory + 'registros.csv');
+
+    const filePath = `${this.file.dataDirectory}registros.csv`;
+
+    const email = {
+      to: 'alejandrorodarte1@gmail.com',
+      // cc: '',
+      // bcc: [],
+      attachments: [
+        filePath
+      ],
+      subject: 'QR Codes backups',
+      body: 'Take my QR code backups goddammit - <strong>ScanApp</strong>',
+      isHtml: true
+    };
+
+    await this.emailComposer.open(email);
+
   }
 
 }
