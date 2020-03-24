@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { NavController } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class DataLocalService {
   constructor(
     private storage: Storage,
     private navController: NavController,
-    private inAppBrowser: InAppBrowser
+    private inAppBrowser: InAppBrowser,
+    private file: File
   ) { }
 
   getRegistros(): Registro[] {
@@ -79,8 +81,33 @@ export class DataLocalService {
       (registro: Registro) => arr.push(`${registro.type}, ${registro.format}, ${registro.created}, ${registro.text.replace(',', ' ')}\n`)
     );
 
-    console.log(arr.join(''));
+    this.createFile(arr.join(''));
 
+  }
+
+  async createFile(csvText: string): Promise<void> {
+
+    try {
+
+      const fileExists = await this.file.checkFile(this.file.dataDirectory, 'registros.csv');
+      await this.writeFile(csvText);
+
+    } catch (e) {
+
+      try {
+        await this.file.createFile(this.file.dataDirectory, 'registros.csv', false);
+        await this.writeFile(csvText);
+      } catch (e2) {
+        console.log('Error writing to file', e2);
+      }
+
+    }
+
+  }
+
+  async writeFile(text: string): Promise<void> {
+    await this.file.writeExistingFile(this.file.dataDirectory, 'registros.csv', text);
+    console.log(this.file.dataDirectory + 'registros.csv');
   }
 
 }
