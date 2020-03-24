@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner/ngx';
+import { DataLocalService } from '../../services/data-local.service';
 
 @Component({
   selector: 'app-tab1',
@@ -14,7 +15,8 @@ export class Tab1Page {
   };
 
   constructor(
-    private barcodeScanner: BarcodeScanner
+    private barcodeScanner: BarcodeScanner,
+    private dataLocalService: DataLocalService
   ) {}
 
   ionViewDidEnter() {
@@ -40,7 +42,11 @@ export class Tab1Page {
       .barcodeScanner
       .scan()
       .then((barcodeScanResult: BarcodeScanResult) => {
-        console.log(barcodeScanResult);
+
+        if (!barcodeScanResult.cancelled) {
+          this.dataLocalService.save(barcodeScanResult.format, barcodeScanResult.text);
+        }
+
       })
       .catch(console.log);
 
