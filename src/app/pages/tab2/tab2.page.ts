@@ -28,7 +28,7 @@ export class Tab2Page implements OnInit, OnDestroy {
   }
 
   openRegistro(registro: Registro): void {
-    console.log(registro);
+    this.dataLocalService.openRegistro(registro);
   }
 
   ngOnDestroy() {
