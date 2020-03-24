@@ -57,7 +57,8 @@ export class DataLocalService {
         const browser = this.inAppBrowser.create(registro.text, '_system');
         break;
 
-      case 'geo:':
+      case 'geo':
+        this.navController.navigateForward(`/tabs/tab2/map/${registro.text}`);
         break;
 
       default:
