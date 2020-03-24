@@ -48,7 +48,7 @@ export class Tab1Page {
         }
 
       })
-      .catch(() => this.dataLocalService.save('QR_CODE', 'https://google.com'));
+      .catch(() => this.dataLocalService.save('QR_CODE', 'geo:40.73151796986687,-74.06087294062502'));
 
   }
 
